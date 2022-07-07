@@ -49,9 +49,17 @@ tableextension 50107 "SalesHeader_Ext" extends "Sales Header"
             DataClassification = ToBeClassified;
             Caption = 'LPO Date';
         }
+        field(50007; "Open Total Amount"; Decimal)
+        {
+            Caption = 'Total Open Amount Excl. VAT';
+            AutoFormatType = 1;
+            Editable = false;
+            CalcFormula = Sum("Sales Line"."Open Line Amount" WHERE("Document Type" = FIELD("Document Type"),
+                                                                         "Document No." = FIELD("No."), "Qty. to Invoice" = filter(<> 0)));
+            FieldClass = FlowField;
+        }
     }
 
     var
         LeadTimeMgt: Codeunit "Lead-Time Management";
-
 }

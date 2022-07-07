@@ -36,6 +36,14 @@ pageextension 50104 PostedSalesInv_Ext extends "Posted Sales Invoice"
             {
                 ApplicationArea = All;
             }
+            field("Assigned User ID LT"; Rec."Assigned User ID LT")
+            {
+                ApplicationArea = All;
+            }
+            field("Order Date"; Rec."Order Date")
+            {
+                ApplicationArea = All;
+            }
         }
     }
 

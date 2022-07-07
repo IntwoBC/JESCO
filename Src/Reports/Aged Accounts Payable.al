@@ -143,6 +143,9 @@ report 50104 "Aged Accounts Payable IT"
             column(VendorContactCaption; FieldCaption(Contact))
             {
             }
+            column(VendorCountryCaption; fieldCaption("Country/Region Code"))
+            {
+            }
             dataitem("Vendor Ledger Entry"; "Vendor Ledger Entry")
             {
                 DataItemLink = "Vendor No." = FIELD("No.");
@@ -230,6 +233,9 @@ report 50104 "Aged Accounts Payable IT"
                     {
                     }
                     column(VendorContactName; Vendor.Contact)
+                    {
+                    }
+                    column(VendorCountry; Vendor."Country/Region Code")
                     {
                     }
                     column(VLEEndingDateRemAmtLCY; VendorLedgEntryEndingDate."Remaining Amt. (LCY)")

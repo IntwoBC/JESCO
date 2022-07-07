@@ -24,6 +24,13 @@ pageextension 50103 MyExtension extends "Item Card"
         {
             Editable = SetVisible;
         }
+        addafter("Qty. on Purch. Order")
+        {
+            field("Qty. on Sales Quote"; Rec."Qty. on Sales Quote")
+            {
+                ApplicationArea = All;
+            }
+        }
     }
     trigger OnOpenPage()
     begin

@@ -28,6 +28,7 @@ report 50100 "Jesco Sales-Tax Invoice"
             column(No_; "No.") { }
             column(Posting_Date; "Posting Date") { }
             column(Document_Date; "Document Date") { }
+            column(Shipment_Date; "Shipment Date") { }
             column(External_Document_No_; "External Document No.") { }
             column(Order_No_; "Order No.") { }
             column(Order_Date; "Order Date") { }
@@ -72,8 +73,10 @@ report 50100 "Jesco Sales-Tax Invoice"
             column(SetListRowVisibility; SetListRowVisibility) { }
             column(Issueing_Bank; "Issueing Bank") { }
             column(SalesLCY; AmountLCY) { }
-            column(VatEnteriesAmount; VatEnteriesAmount) { }
+            column(VatEnteriesAmount; ABS(VatEnteriesAmount)) { }
             column(ShippingVisible; ShippingVisible) { }
+            column(Assigned_User_ID_LT; "Assigned User ID LT") { }
+
             dataitem("Sales Invoice Line"; "Sales Invoice Line")
             {
                 DataItemLink = "Document No." = FIELD("No.");

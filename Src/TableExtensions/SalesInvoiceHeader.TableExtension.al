@@ -27,6 +27,19 @@ tableextension 50108 SalesInvHeader_Ext extends "Sales Invoice Header"
             DataClassification = ToBeClassified;
             Caption = 'LPO Date';
         }
+        field(50007; "Amount (LCY)"; Decimal)
+        {
+            AutoFormatType = 1;
+            CalcFormula = sum("Cust. Ledger Entry"."Sales (LCY)" where("Document No." = field("No."), "Document Type" = const(Invoice), "Customer No." = field("Bill-to Customer No.")));
+            Caption = 'Amount (LCY)';
+            Editable = false;
+            FieldClass = FlowField;
+        }
+        field(50008; "Assigned User ID LT"; Code[50])
+        {
+            Caption = 'Assigned User ID';
+            DataClassification = EndUserIdentifiableInformation;
+        }
     }
 
     var

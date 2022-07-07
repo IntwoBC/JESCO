@@ -73,13 +73,13 @@ report 50102 "Jesco Sales-Proforma Invoice"
             column(Bill_to_Country_Region_Code; "Bill-to Country/Region Code") { }
             column(BankDetailsAvailable; BankDetailsAvailable) { }
             column(BankAccNumber; BankDetails[1]) { }
-            column(BankAccName; BankDetails[2]) { }
-            column(BankContact; BankDetails[3]) { }
+            column(BankIban; BankDetails[2]) { }
+            column(BankAccName; BankDetails[3]) { }
             column(BankAddress; BankDetails[4]) { }
             column(BankSwift; BankDetails[5]) { }
-            column(BankIban; BankDetails[6]) { }
             column(ShowTitle; ShowTitle) { }
             column(CommercialInvoice; CommercialInvoice) { }
+            column(Assigned_User_ID; "Assigned User ID") { }
             dataitem("Sales Line"; "Sales Line")
             {
                 DataItemLink = "Document No." = FIELD("No.");
@@ -108,6 +108,8 @@ report 50102 "Jesco Sales-Proforma Invoice"
                 end;
             }
             trigger OnAfterGetRecord()
+            var
+                BankL: Record "Bank Account";
             begin
                 Clear(TotalVatAmt);
                 Clear(ShipmentMethodG);
@@ -165,22 +167,32 @@ report 50102 "Jesco Sales-Proforma Invoice"
                         MyAmountInWords.FormatNoText(TotalVATAmountWords, PrepaymentTotalAmount, '');
                         TotalAmountInWords := TotalVATAmountWords[1] + ' AND ' + DecimalValueInWords[1] + ' ONLY';
                     end;
+                end;
+                // BankDetailsAvailable := false;
+                // if "Direct Debit Mandate ID" <> '' then begin
+                //     BankDetailsAvailable := true;
+                //     if SepaDirectDebt.GET("Direct Debit Mandate ID") then begin
+                //         if CustBankAcc.GET("Sell-to Customer No.", SepaDirectDebt."Customer Bank Account Code") then begin
+                //             BankDetails[1] := CustBankAcc.Code;
+                //             BankDetails[2] := CustBankAcc.Name;
+                //             BankDetails[3] := CustBankAcc.Contact;
+                //             BankDetails[4] := CustBankAcc.Address + ' ' + CustBankAcc."Address 2";
+                //             BankDetails[5] := CustBankAcc."SWIFT Code";
+                //             BankDetails[6] := CustBankAcc.IBAN;
+                //         end;
+                //     end;
+                // end;
 
-                end;
                 BankDetailsAvailable := false;
-                if "Direct Debit Mandate ID" <> '' then begin
+                if BankL.Get(Bank) then begin
                     BankDetailsAvailable := true;
-                    if SepaDirectDebt.GET("Direct Debit Mandate ID") then begin
-                        if CustBankAcc.GET("Sell-to Customer No.", SepaDirectDebt."Customer Bank Account Code") then begin
-                            BankDetails[1] := CustBankAcc.Code;
-                            BankDetails[2] := CustBankAcc.Name;
-                            BankDetails[3] := CustBankAcc.Contact;
-                            BankDetails[4] := CustBankAcc.Address + ' ' + CustBankAcc."Address 2";
-                            BankDetails[5] := CustBankAcc."SWIFT Code";
-                            BankDetails[6] := CustBankAcc.IBAN;
-                        end;
-                    end;
+                    BankDetails[1] := BankL."Bank Account No.";
+                    BankDetails[2] := BankL.IBAN;
+                    BankDetails[3] := BankL.Name;
+                    BankDetails[4] := BankL.Address + ' ' + BankL."Address 2";
+                    BankDetails[5] := BankL."SWIFT Code";
                 end;
+
                 if PaymentTerms.Get("Sales Header"."Payment Terms Code") then;
                 Clear(CountryRegion);
                 if CountryRegion.Get(Cust."Country/Region Code") then;
@@ -207,6 +219,16 @@ report 50102 "Jesco Sales-Proforma Invoice"
                     {
                         ApplicationArea = All;
                         Caption = 'Commercial Invoice';
+                    }
+                    field(Bank; Bank)
+                    {
+                        Caption = 'Bank';
+                        ApplicationArea = All;
+                        trigger OnLookup(var Text: Text): Boolean;
+                        begin
+                            if Page.RunModal(Page::"Bank Account List", BanKAcc) = Action::LookupOK then
+                                Bank := BanKAcc."No.";
+                        end;
                     }
                 }
             }
@@ -273,5 +295,6 @@ report 50102 "Jesco Sales-Proforma Invoice"
         CustBankAcc: Record "Customer Bank Account";
         PaymentTerms: Record "Payment Terms";
         CountryRegion: Record "Country/Region";
-
+        Bank: Code[20];
+        BanKAcc: Record "Bank Account";
 }

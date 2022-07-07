@@ -9,5 +9,16 @@ pageextension 50106 SalesOrderSubfrm_ext extends "Sales Order Subform"
                 ApplicationArea = All;
             }
         }
+        addafter("Invoice Disc. Pct.")
+        {
+            field("Total Open Line Amount"; TotalSalesLine."Open Line Amount")
+            {
+                ApplicationArea = All;
+                Caption = 'Total Open Amount Excl. VAT';
+                Editable = false;
+            }
+        }
     }
+    var
+        DocumentTotals: Codeunit "Document Totals";
 }

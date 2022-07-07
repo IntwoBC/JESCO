@@ -81,6 +81,18 @@ pageextension 50101 SalesOrder_Ext extends "Sales Order"
                         Report.Run(Report::"Jesco Sales-Proforma Invoice", true, true, SalesHeaderL);
                 end;
             }
+            action(UpdateLines)
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Category10;
+                trigger OnAction()
+                var
+                    UpdateReport: Report "Sales Order Lines Update";
+                begin
+                    UpdateReport.Run();
+                end;
+            }
         }
     }
 }

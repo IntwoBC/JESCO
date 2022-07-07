@@ -15,8 +15,10 @@ tableextension 50102 SalesLine_Ext extends "Sales Line"
             FieldClass = FlowField;
             CalcFormula = sum("Sales Line"."Line Amount" where("Document No." = field("Document No."), "Document Type" = filter(Quote), "Custom Duty" = filter(false)));
         }
+        field(50003; "Open Line Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Total Open Amount Excl. VAT';
+        }
     }
-
-    var
-        myInt: Integer;
 }

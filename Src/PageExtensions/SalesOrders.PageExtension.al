@@ -1,8 +1,19 @@
-pageextension 50100 SalesOrders_Ext extends "Sales Orders"
+pageextension 50100 "Sales OrdersExt" extends "Sales Order List"
 {
+    layout
+    {
+        addafter(Amount)
+        {
+            field("Open Total Amount"; Rec."Open Total Amount")
+            {
+                ApplicationArea = All;
+            }
+        }
+    }
+
     actions
     {
-        addlast(Processing)
+        addafter("&Print")
         {
             action(ProformaInvoice)
             {
@@ -17,6 +28,18 @@ pageextension 50100 SalesOrders_Ext extends "Sales Orders"
                     SalesHeaderL.SetRange("No.", Rec."No.");
                     SalesHeaderL.SetRange("Sell-to Customer No.", Rec."Sell-to Customer No.");
                     if SalesHeaderL.FindFirst() then Report.Run(Report::"Jesco Sales-Proforma Invoice", true, true, SalesHeaderL);
+                end;
+            }
+            action(UpdateLines)
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Category10;
+                trigger OnAction()
+                var
+                    UpdateReport: Report "Sales Order Lines Update";
+                begin
+                    UpdateReport.Run();
                 end;
             }
         }

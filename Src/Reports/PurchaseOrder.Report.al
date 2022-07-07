@@ -67,7 +67,7 @@ report 50108 "Purchase Order"
                 column(TotalSubTotal; TotalSubTotal) { }
                 column(SLNo; SLNo) { }
                 column(SearchName; SearchName) { }
-                column(Cross_Reference_No_; "Cross-Reference No.") { }
+                column(Cross_Reference_No_; "Item Reference No.") { }
 
                 trigger OnAfterGetRecord()
                 var

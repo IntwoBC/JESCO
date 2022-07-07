@@ -182,6 +182,9 @@ report 50107 "Aged Accounts Receivable IT"
                 column(CustomerContactCaption; FieldCaption(Contact))
                 {
                 }
+                column(CustomerCountryCaption; FieldCaption("Country/Region Code"))
+                {
+                }
                 dataitem("Cust. Ledger Entry"; "Cust. Ledger Entry")
                 {
                     DataItemLink = "Customer No." = FIELD("No.");
@@ -261,6 +264,9 @@ report 50107 "Aged Accounts Receivable IT"
                         {
                         }
                         column(CustomerContactName; Customer.Contact)
+                        {
+                        }
+                        column(CustomerCountry; Customer."Country/Region Code")
                         {
                         }
                         column(CLEEndDateRemAmtLCY; CustLedgEntryEndingDate."Remaining Amt. (LCY)")

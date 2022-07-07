@@ -35,7 +35,7 @@ report 50103 "Jesco Delivery Note"
             //**********************Header Details*************************
             column(VAT_Registration_No_; "VAT Registration No.") { }
             column(No_; "No.") { }
-            column(Posting_Date; Format("Posting Date", 0, 4)) { }
+            column(Posting_Date; Format("Shipment Date", 0, 4)) { }
             column(Document_Date; Format("Document Date", 0, 4)) { }
             column(External_Document_No_; "External Document No.") { }
             column(Order_No_; "Order No.") { }
